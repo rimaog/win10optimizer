@@ -1,126 +1,111 @@
-# Ultimate Windows 10 Optimizer Script
-# Created by r1ma
-# DISCLAIMER: Use this script at your own risk. It makes permanent changes to your system.
-# Always create a system restore point before proceeding.
+# ========================================================================
+#                         Windows 10 Optimizer by r1ma
+# ========================================================================
 
-$ErrorActionPreference = "Stop"
+# DISCLAIMER: Use at your own risk. The script will make permanent changes to your system. 
+# Always create a system restore point and backup important files.
+# Press Enter to continue, or Ctrl+C to quit.
+Write-Host "DISCLAIMER: This script will optimize your Windows 10 system for gaming, privacy, network performance, and overall performance."
+Write-Host "This script will make permanent changes to your system's settings."
+Write-Host "Use at your own risk! We recommend creating a system restore point before proceeding."
+Write-Host "Press Enter to continue or press Ctrl+C to quit."
 
-# --- DISCLAIMER ---
-Write-Host "This script will apply several optimizations to your system for gaming and performance."
-Write-Host "It will disable telemetry, optimize network settings, remove bloatware, and more."
-Write-Host "By running this script, you agree to the risks involved."
-Write-Host "Always create a restore point before proceeding."
-$continue = Read-Host "Press ENTER to continue or CTRL+C to cancel"
-if (-not $continue) { exit }
+# Wait for user to press Enter or Ctrl+C to quit
+$null = Read-Host "Press Enter to continue or Ctrl+C to quit"
 
-# --- Step 1: Create System Restore Point ---
+# Debug message: Confirm the user pressed Enter to continue
+Write-Host "You pressed Enter. Continuing with optimizations..."
+
+# ========================================================================
+# Step 1: Create a System Restore Point (Optional but Recommended)
 Write-Host "Creating system restore point..."
-try {
-    Checkpoint-Computer -Description "Pre-Optimization Restore" -RestorePointType "MODIFY_SETTINGS"
-    Write-Host "Restore point created successfully."
-} catch {
-    Write-Host "Failed to create restore point. Please ensure you have administrator privileges."
-    exit
-}
+$restorePointName = "Pre-Optimization Restore Point"
+Checkpoint-Computer -Description $restorePointName -RestorePointType "MODIFY_SETTINGS"
 
-# --- Step 2: Disable Telemetry & Bloatware ---
-Write-Host "Disabling telemetry and unnecessary services..."
+Write-Host "System Restore Point Created: $restorePointName"
 
-# Disable Windows Telemetry (Critical for privacy & performance)
-Stop-Service -Name DiagTrack -Force
-Set-Service -Name DiagTrack -StartupType Disabled
-Stop-Service -Name Wuauserv -Force
-Set-Service -Name Wuauserv -StartupType Disabled
+# ========================================================================
+# Step 2: Disable Unnecessary Windows Services (SysMain, OneDrive, etc.)
+Write-Host "Disabling unnecessary services for optimal performance..."
 
-# Disable OneDrive, SysMain, and other unnecessary services
-Stop-Service -Name OneDrive -Force
-Set-Service -Name OneDrive -StartupType Disabled
-Stop-Service -Name SysMain -Force
-Set-Service -Name SysMain -StartupType Disabled
+# Disable SysMain (Superfetch) service
+Stop-Service -Name "SysMain" -Force
+Set-Service -Name "SysMain" -StartupType Disabled
+Write-Host "SysMain (Superfetch) service disabled."
 
-# Optional: Remove pre-installed bloatware (comment out if not needed)
-Write-Host "Removing pre-installed apps..."
-try {
-    Get-AppxPackage | Remove-AppxPackage
-    Write-Host "Pre-installed apps removed successfully."
-} catch {
-    Write-Host "Failed to remove apps. This is normal if there are no apps to remove."
-}
+# Disable Windows Search (optional for gaming performance)
+Stop-Service -Name "WSearch" -Force
+Set-Service -Name "WSearch" -StartupType Disabled
+Write-Host "Windows Search service disabled."
 
-# --- Step 3: Network Optimizations ---
-Write-Host "Optimizing network settings for low latency and maximum speed..."
+# Disable OneDrive (optional, if you don't use OneDrive)
+Stop-Service -Name "OneDrive" -Force
+Set-Service -Name "OneDrive" -StartupType Disabled
+Write-Host "OneDrive service disabled."
 
-# Disable Windows Auto-Tuning (Low latency tweak)
-Set-NetTCPSetting -Name "InternetCustom" -AutoTuningLevel Disabled
+# ========================================================================
+# Step 3: Optimize Network Settings for Low Latency and High-Speed Performance
+Write-Host "Optimizing network settings for low latency and high-speed performance..."
 
-# Enable RSS (Receive Side Scaling) for multi-core performance
-Set-NetTCPSetting -Name "InternetCustom" -RSS Enabled
+# Disable TCP Auto-Tuning
+Set-NetTCPSetting -Name "Internet" -Autotuning Disabled
+Write-Host "TCP Auto-Tuning disabled."
 
-# Enable TCP Chimney Offload (For better network throughput)
-Set-NetTCPSetting -Name "InternetCustom" -Chimney Enabled
+# Disable Windows Auto-Adjust for Bandwidth
+Set-NetAdapterAdvancedProperty -Name "Ethernet" -DisplayName "Large Send Offload v2 (IPv4)" -DisplayValue "Disabled"
+Write-Host "Bandwidth auto-adjust settings disabled."
 
-# Enable TCP Congestion Control Provider (CTCP)
-Set-NetTCPSetting -Name "InternetCustom" -CongestionProvider Ctcp
+# Enable Receive Side Scaling (RSS)
+Set-NetAdapterRss -Name "Ethernet" -Enabled $true
+Write-Host "Receive Side Scaling (RSS) enabled."
 
-# Disable Nagle’s Algorithm (Helps reduce latency)
-Set-NetTCPSetting -Name "InternetCustom" -TcpNoDelay Enabled
+# ========================================================================
+# Step 4: Set Power Plan to High Performance
+Write-Host "Setting power plan to High Performance..."
 
-# --- Step 4: Performance Tweaks ---
-Write-Host "Tweaking performance settings..."
+# Set Power Plan to High Performance
+powercfg /s SCHEME_MIN
+Write-Host "High Performance power plan activated."
 
-# Disable unnecessary startup programs
-Write-Host "Disabling startup programs..."
-try {
-    Get-CimInstance -Class Win32_StartupCommand | foreach { Remove-CimInstance -InputObject $_ }
-    Write-Host "Startup programs disabled."
-} catch {
-    Write-Host "Failed to disable startup programs."
-}
+# ========================================================================
+# Step 5: Disable Windows Defender (Optional for users who have other antivirus software)
+Write-Host "Disabling Windows Defender..."
 
-# Disable Virtual Memory (Pagefile) - Be cautious, only use if you have sufficient RAM
-Write-Host "Disabling Virtual Memory (Pagefile)..."
-try {
-    systempropertiesperformance
-    Write-Host "Pagefile settings adjusted."
-} catch {
-    Write-Host "Failed to adjust pagefile settings."
-}
+# Disable Windows Defender real-time protection
+Set-MpPreference -DisableRealtimeMonitoring $true
+Write-Host "Windows Defender real-time protection disabled."
 
-# --- Step 5: Power Plan Optimization ---
-Write-Host "Setting system to High-Performance Power Plan..."
-try {
-    powercfg -setactive SCHEME_MIN
-    Write-Host "Power plan set to High-Performance."
-} catch {
-    Write-Host "Failed to set power plan. Please check your system settings."
-}
+# ========================================================================
+# Step 6: Remove Bloatware (Optional - Comment out if you want to skip)
+Write-Host "Removing unnecessary bloatware (optional)..."
 
-# --- Step 6: Intel/AMD Specific Tweaks ---
-Write-Host "Applying specific tweaks for Intel and AMD systems..."
+# Remove Xbox App
+Get-AppxPackage *xbox* | Remove-AppxPackage
+Write-Host "Xbox App removed."
 
-# Intel Systems Tweaks (for Intel integrated graphics users)
-Write-Host "Intel-specific tweaks applied."
+# Remove OneNote App
+Get-AppxPackage *onenote* | Remove-AppxPackage
+Write-Host "OneNote App removed."
 
-# AMD Systems Tweaks (for AMD integrated graphics users)
-Write-Host "AMD-specific tweaks applied."
+# Remove Cortana (Optional)
+Stop-Process -Name "Cortana" -Force
+Write-Host "Cortana removed."
 
-# --- Step 7: Final Cleanup ---
-Write-Host "Running final cleanup and removing temporary files..."
-try {
-    Remove-Item -Path "$env:temp\*" -Recurse -Force
-    Remove-Item -Path "C:\Windows\Temp\*" -Recurse -Force
-    Write-Host "Temporary files removed successfully."
-} catch {
-    Write-Host "Failed to remove temporary files."
-}
+# ========================================================================
+# Step 7: Clean Up Temporary Files
+Write-Host "Cleaning up temporary files..."
+# Run disk cleanup utility
+Start-Process "cleanmgr.exe" -ArgumentList "/sagerun:1" -Wait
+Write-Host "Disk cleanup completed."
 
-# Run Disk Cleanup
-Write-Host "Running Disk Cleanup..."
-cleanmgr /sagerun:1
+# ========================================================================
+# Final Step: Notify User and Reboot
+Write-Host "Optimizations complete!"
+Write-Host "Some changes may require a reboot to take effect. We recommend you restart your system now."
 
-# --- Completion ---
-Write-Host "Optimizations completed successfully!"
-Write-Host "Please restart your computer for all changes to take full effect."
+# Wait for user to press Enter before exiting
+$null = Read-Host "Press Enter to exit and restart your system."
+Write-Host "Rebooting your system now..."
+Restart-Computer -Force
 
-# End of script
-exit
+# End of Script
