@@ -1,4 +1,4 @@
-/* General Reset and Box-Sizing */
+/* General Reset */
 * {
     margin: 0;
     padding: 0;
@@ -9,21 +9,13 @@
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #111;
-    color: white;
+    color: #fff;
     line-height: 1.6;
 }
 
 /* Smooth Scrolling */
 html {
     scroll-behavior: smooth;
-}
-
-/* Container Styling */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
 }
 
 /* Navbar Styling */
@@ -42,14 +34,14 @@ html {
 }
 
 #navbar .logo {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
     color: #00b0ff;
 }
 
 #navbar ul {
     display: flex;
-    gap: 30px;
+    gap: 25px;
 }
 
 #navbar ul li {
@@ -57,7 +49,7 @@ html {
 }
 
 #navbar ul li a {
-    color: white;
+    color: #fff;
     text-decoration: none;
     transition: color 0.3s;
 }
@@ -66,47 +58,49 @@ html {
     color: #00b0ff;
 }
 
-/* Header Section */
-header {
-    background: linear-gradient(45deg, #00b0ff, #0095cc);
+/* Hero Section */
+#hero {
+    background: linear-gradient(45deg, #0095cc, #00b0ff);
     color: white;
-    padding: 80px 0;
     text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    padding: 100px 0;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-header h1 {
-    font-size: 50px;
+#hero h1 {
+    font-size: 55px;
+    font-weight: bold;
     margin-bottom: 20px;
 }
 
-header p {
+#hero p {
     font-size: 20px;
     margin-bottom: 30px;
 }
 
-header .cta-btn {
+.cta-btn {
     background-color: #00b0ff;
     color: white;
-    padding: 15px 40px;
-    font-size: 18px;
-    border-radius: 5px;
+    padding: 20px 40px;
+    font-size: 22px;
+    border-radius: 10px;
     text-decoration: none;
     transition: background 0.3s;
 }
 
-header .cta-btn:hover {
+.cta-btn:hover {
     background-color: #0095cc;
 }
 
-/* Section Styles */
+/* Section Styling */
 section {
-    margin-bottom: 60px;
+    padding: 60px 0;
+    text-align: center;
 }
 
 h2 {
     font-size: 36px;
+    font-weight: 600;
     margin-bottom: 20px;
     color: #00b0ff;
 }
@@ -115,22 +109,26 @@ h2 {
     list-style: none;
     margin-top: 20px;
     padding: 0;
+    text-align: left;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .features-list li {
-    font-size: 18px;
-    margin: 10px 0;
+    font-size: 20px;
+    margin: 15px 0;
 }
 
 /* Buttons */
 .download-btn, .social-btn {
     background-color: #00b0ff;
     color: white;
-    padding: 15px 30px;
-    font-size: 18px;
-    border-radius: 5px;
+    padding: 20px 40px;
+    font-size: 22px;
+    border-radius: 8px;
     transition: background-color 0.3s;
-    margin: 20px 10px;
+    margin: 20px 0;
+    text-decoration: none;
     display: inline-block;
 }
 
@@ -141,30 +139,27 @@ h2 {
 /* Footer Section */
 footer {
     background-color: #222;
-    padding: 20px;
+    padding: 30px 0;
     text-align: center;
     color: #b0b0b0;
 }
 
 footer p {
-    font-size: 16px;
+    font-size: 18px;
 }
 
-/* Mobile Responsiveness */
+/* Responsive Styling */
 @media (max-width: 768px) {
-    .container {
-        width: 90%;
+    #hero h1 {
+        font-size: 40px;
     }
 
-    header h1 {
-        font-size: 36px;
-    }
-
-    header p {
+    #hero p {
         font-size: 18px;
     }
 
     .download-btn, .social-btn {
-        padding: 12px 25px;
+        padding: 15px 30px;
+        font-size: 18px;
     }
 }
