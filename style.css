@@ -1,50 +1,35 @@
-/* General Styles */
+/* General Reset and Box-Sizing */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Body Styling */
 body {
     font-family: 'Poppins', sans-serif;
-    background: #111;
-    color: #fff;
+    background-color: #111;
+    color: white;
     line-height: 1.6;
-    padding: 20px;
-    font-size: 18px;
 }
 
-/* Smooth scrolling */
+/* Smooth Scrolling */
 html {
     scroll-behavior: smooth;
 }
 
-/* Container class */
+/* Container Styling */
 .container {
-    width: 85%;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 20px;
     text-align: center;
 }
 
-h1, h2 {
-    color: #fff;
-}
-
-ul, ol {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-}
-
-ul li, ol li {
-    font-size: 18px;
-    margin: 10px 0;
-}
-
-/* Navigation Bar */
+/* Navbar Styling */
 #navbar {
     background: #222;
-    padding: 15px 0;
+    padding: 20px;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -57,14 +42,14 @@ ul li, ol li {
 }
 
 #navbar .logo {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
     color: #00b0ff;
 }
 
 #navbar ul {
     display: flex;
-    gap: 20px;
+    gap: 30px;
 }
 
 #navbar ul li {
@@ -72,9 +57,9 @@ ul li, ol li {
 }
 
 #navbar ul li a {
-    color: #fff;
+    color: white;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.3s;
 }
 
 #navbar ul li a:hover {
@@ -84,40 +69,40 @@ ul li, ol li {
 /* Header Section */
 header {
     background: linear-gradient(45deg, #00b0ff, #0095cc);
-    color: #fff;
-    padding: 60px 0;
+    color: white;
+    padding: 80px 0;
     text-align: center;
-    margin-bottom: 40px;
     border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 header h1 {
-    font-size: 48px;
+    font-size: 50px;
     margin-bottom: 20px;
 }
 
 header p {
-    font-size: 22px;
+    font-size: 20px;
     margin-bottom: 30px;
 }
 
 header .cta-btn {
-    background: #00b0ff;
-    color: #fff;
+    background-color: #00b0ff;
+    color: white;
     padding: 15px 40px;
     font-size: 18px;
     border-radius: 5px;
     text-decoration: none;
-    transition: background 0.3s ease;
+    transition: background 0.3s;
 }
 
 header .cta-btn:hover {
-    background: #0095cc;
+    background-color: #0095cc;
 }
 
 /* Section Styles */
 section {
-    margin-bottom: 50px;
+    margin-bottom: 60px;
 }
 
 h2 {
@@ -127,23 +112,24 @@ h2 {
 }
 
 .features-list {
-    text-align: left;
+    list-style: none;
     margin-top: 20px;
+    padding: 0;
 }
 
 .features-list li {
-    font-size: 20px;
+    font-size: 18px;
     margin: 10px 0;
 }
 
 /* Buttons */
 .download-btn, .social-btn {
     background-color: #00b0ff;
-    color: #fff;
+    color: white;
     padding: 15px 30px;
     font-size: 18px;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
     margin: 20px 10px;
     display: inline-block;
 }
@@ -152,30 +138,32 @@ h2 {
     background-color: #0095cc;
 }
 
-/* Footer Styles */
+/* Footer Section */
 footer {
     background-color: #222;
     padding: 20px;
-    margin-top: 40px;
     text-align: center;
+    color: #b0b0b0;
 }
 
 footer p {
     font-size: 16px;
-    color: #b0b0b0;
 }
 
-/* Media Queries for Responsiveness */
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
     .container {
         width: 90%;
     }
+
     header h1 {
         font-size: 36px;
     }
+
     header p {
         font-size: 18px;
     }
+
     .download-btn, .social-btn {
         padding: 12px 25px;
     }
